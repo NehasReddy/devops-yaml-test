@@ -18,6 +18,9 @@ parameters:
   - name: deployenvironmentportfolio
     default: BC
 variables:
+
+- name: demoKeyVaultSecret
+  value: '--from-literal=AZURE_OPENAI_API_KEY="$(DEMO-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(DEMO-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
 - group: AKSDeployment-SVG
 - group: 5088-AKSDeploymentFiles-VG
 - group: AKSDeployment-DR-SVG
@@ -29,18 +32,18 @@ variables:
 - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
   - name: envname
     value: DEV
-# - name: devKeyVaultSecret
-#   value: '--from-literal=clientIdEds="$(DEV-29292-WA-xyz-clientIdEds)" --from-literal=clientSecretEds="$(DEV-29292-WA-xyz-clientSecretEds)" --from-literal=CacheConnection="$(DEV-29292-WA-xyz-CacheConnection)"'
-# - name: sitKeyVaultSecret
-#   value: '--from-literal=clientIdEds="$(SIT-29292-WA-xyz-clientIdEds)" --from-literal=clientSecretEds="$(SIT-29292-WA-xyz-clientSecretEds)" --from-literal=CacheConnection="$(SIT-29292-WA-xyz-CacheConnection)"'
-# - name: ptKeyVaultSecret
-#   value: '--from-literal=clientIdEds="$(PT-29292-WA-xyz-clientIdEds)" --from-literal=clientSecretEds="$(PT-29292-WA-xyz-clientSecretEds)" --from-literal=CacheConnection="$(PT-29292-WA-xyz-CacheConnection)"'
-# - name: uatKeyVaultSecret
-#   value: '--from-literal=clientIdEds="$(UAT-29292-WA-xyz-clientIdEds)" --from-literal=clientSecretEds="$(UAT-29292-WA-xyz-clientSecretEds)" --from-literal=CacheConnection="$(UAT-29292-WA-xyz-CacheConnection)"'
-# - name: prodKeyVaultSecret
-#   value: '--from-literal=clientIdEds="$(PROD-29292-WA-xyz-clientIdEds)" --from-literal=clientSecretEds="$(PROD-29292-WA-xyz-clientSecretEds)" --from-literal=CacheConnection="$(PROD-29292-WA-xyz-CacheConnection)"'
-# - name: drKeyVaultSecret
-#   value: '--from-literal=clientIdEds="$(DR-29292-WA-xyz-clientIdEds)" --from-literal=clientSecretEds="$(DR-29292-WA-xyz-clientSecretEds)" --from-literal=CacheConnection="$(DR-29292-WA-xyz-CacheConnection)"'
+- name: devKeyVaultSecret
+  value: '--from-literal=AZURE_OPENAI_API_KEY="$(DEV-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(DEV-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
+- name: sitKeyVaultSecret
+  value: '--from-literal=AZURE_OPENAI_API_KEY="$(SIT-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(SIT-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
+- name: ptKeyVaultSecret
+  value: '--from-literal=AZURE_OPENAI_API_KEY="$(PT-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(PT-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
+- name: uatKeyVaultSecret
+  value: '--from-literal=AZURE_OPENAI_API_KEY="$(UAT-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(UAT-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
+- name: prodKeyVaultSecret
+  value: '--from-literal=AZURE_OPENAI_API_KEY="$(PROD-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(PROD-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
+- name: drKeyVaultSecret
+  value: '--from-literal=AZURE_OPENAI_API_KEY="$(DR-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(DR-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
 pr: none
 name: $(envname)-$(date:yyyyMMdd)$(rev:.r)
 resources:
