@@ -30,17 +30,17 @@ variables:
   - name: envname
     value: DEV
 - name: devKeyVaultSecret
-  value: '--from-literal=AZURE_OPENAI_API_KEY="$(DEV-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(DEV-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)" --from-literal=AZURE-OPENAI-API-KEY="$(DEV-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB-CONNECTION-STRING="$(DEV-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
+  value: '--from-literal=AZURE_OPENAI_API_KEY="$(DEV-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(DEV-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
 - name: sitKeyVaultSecret
-  value: '--from-literal=AZURE_OPENAI_API_KEY="$(SIT-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(SIT-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)" --from-literal=AZURE-OPENAI-API-KEY="$(SIT-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB-CONNECTION-STRING="$(SIT-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
+  value: '--from-literal=AZURE_OPENAI_API_KEY="$(SIT-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(SIT-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
 - name: ptKeyVaultSecret
-  value: '--from-literal=AZURE_OPENAI_API_KEY="$(PT-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(PT-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)" --from-literal=AZURE-OPENAI-API-KEY="$(PT-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB-CONNECTION-STRING="$(PT-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
+  value: '--from-literal=AZURE_OPENAI_API_KEY="$(PT-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(PT-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
 - name: uatKeyVaultSecret
-  value: '--from-literal=AZURE_OPENAI_API_KEY="$(UAT-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(UAT-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)" --from-literal=AZURE-OPENAI-API-KEY="$(UAT-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB-CONNECTION-STRING="$(UAT-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
+  value: '--from-literal=AZURE_OPENAI_API_KEY="$(UAT-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(UAT-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
 - name: prodKeyVaultSecret
-  value: '--from-literal=AZURE_OPENAI_API_KEY="$(PROD-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(PROD-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)" --from-literal=AZURE-OPENAI-API-KEY="$(PROD-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB-CONNECTION-STRING="$(PROD-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
+  value: '--from-literal=AZURE_OPENAI_API_KEY="$(PROD-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(PROD-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
 - name: drKeyVaultSecret
-  value: '--from-literal=AZURE_OPENAI_API_KEY="$(DR-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(DR-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)" --from-literal=AZURE-OPENAI-API-KEY="$(DR-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB-CONNECTION-STRING="$(DR-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
+  value: '--from-literal=AZURE_OPENAI_API_KEY="$(DR-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(DR-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
 pr: none
 name: $(envname)-$(date:yyyyMMdd)$(rev:.r)
 resources:
@@ -78,5 +78,5 @@ stages:
       YAMLFolderName: 5088-AKSDeploymentFiles
       TrackType: WEB
       deployenvironmentportfolio: BC
-      IsSVGRequired: True
+      IsSVGRequired: False
       AKSPipelineIdVariable: 1018
