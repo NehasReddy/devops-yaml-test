@@ -1,0 +1,82 @@
+parameters:
+  - name: deployenvironmentname
+    default: DEVINT
+  - name: DCountenv
+    default: DEV
+  - name: BuildContext
+    default: Guest
+  - name: DockerFileName
+    default: Guest
+  - name: checkoutreponame
+    default: Reponame
+  - name: ValidationType
+    default: CAST
+  - name: DockerFilePath
+    default: Guest
+  - name: DockerFolderPath
+    default: Guest
+  - name: deployenvironmentportfolio
+    default: BC
+variables:
+- group: AKSDeployment-SVG
+- group: 5088-AKSDeploymentFiles-VG
+- group: AKSDeployment-DR-SVG
+- name: envname
+  value: DEV
+- ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/release') }}:
+  - name: envname
+    value: SIT
+- ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
+  - name: envname
+    value: DEV
+# - name: devKeyVaultSecret
+#   value: '--from-literal=clientIdEds="$(DEV-29292-WA-xyz-clientIdEds)" --from-literal=clientSecretEds="$(DEV-29292-WA-xyz-clientSecretEds)" --from-literal=CacheConnection="$(DEV-29292-WA-xyz-CacheConnection)"'
+# - name: sitKeyVaultSecret
+#   value: '--from-literal=clientIdEds="$(SIT-29292-WA-xyz-clientIdEds)" --from-literal=clientSecretEds="$(SIT-29292-WA-xyz-clientSecretEds)" --from-literal=CacheConnection="$(SIT-29292-WA-xyz-CacheConnection)"'
+# - name: ptKeyVaultSecret
+#   value: '--from-literal=clientIdEds="$(PT-29292-WA-xyz-clientIdEds)" --from-literal=clientSecretEds="$(PT-29292-WA-xyz-clientSecretEds)" --from-literal=CacheConnection="$(PT-29292-WA-xyz-CacheConnection)"'
+# - name: uatKeyVaultSecret
+#   value: '--from-literal=clientIdEds="$(UAT-29292-WA-xyz-clientIdEds)" --from-literal=clientSecretEds="$(UAT-29292-WA-xyz-clientSecretEds)" --from-literal=CacheConnection="$(UAT-29292-WA-xyz-CacheConnection)"'
+# - name: prodKeyVaultSecret
+#   value: '--from-literal=clientIdEds="$(PROD-29292-WA-xyz-clientIdEds)" --from-literal=clientSecretEds="$(PROD-29292-WA-xyz-clientSecretEds)" --from-literal=CacheConnection="$(PROD-29292-WA-xyz-CacheConnection)"'
+# - name: drKeyVaultSecret
+#   value: '--from-literal=clientIdEds="$(DR-29292-WA-xyz-clientIdEds)" --from-literal=clientSecretEds="$(DR-29292-WA-xyz-clientSecretEds)" --from-literal=CacheConnection="$(DR-29292-WA-xyz-CacheConnection)"'
+pr: none
+name: $(envname)-$(date:yyyyMMdd)$(rev:.r)
+resources:
+  repositories:
+    - repository: templates
+      type: githubenterprise
+      name: Digital-Platform-IT-Build/OneC_2932_CoreTemplate
+      endpoint: GHA-Fulfilment IT Systems-SC-5088-User Engagement App
+    - repository: Reponame
+      type: githubenterprise
+      ref: $(Build.SourceBranchName)
+      name: Fulfilment-IT-Systems/OneC_5088_UserEngFrontEnd
+      endpoint: GHA-Fulfilment IT Systems-SC-5088-User Engagement App
+    - repository: Reponame
+      type: githubenterprise
+      ref: master
+      name: Fulfilment-IT-Systems/5088-AKSDeploymentFiles
+      endpoint: GHA-Fulfilment IT Systems-SC-5088-User Engagement App
+stages:
+  - template: AKS Core Template/AKSStages.yml@templates
+    parameters:
+      TrackName: 5088-wa-userengagementfrontend
+      TrackVariableName: 5088-UserEngagementFrontEnd
+      deployenvironmentname: DEVINT
+      checkoutreponame: Reponame
+      DCountenv: DEV
+      TemplateName: AKS-Deploy-Logic.yml
+      ValidationType: CAST
+      BuildContext: .
+      ISKTLO: false
+      KTLOChildName: $(system.teamProject)
+      DockerFileName: Dockerfile
+      DockerFolderPath: $(Build.SourcesDirectory)/
+      FilePath: \\CTSINAZSIDOPBS1\DevopsFileShare\AKS-devops\$(Build.SourceBranchName)\$(Build.DefinitionName)\$(Build.BuildNumber)\
+      YAMLFolderName: 5088-AKSDeploymentFiles
+      TrackType: WEB
+      deployenvironmentportfolio: BC
+      IsSVGRequired: False
+      AKSPipelineIdVariable: 1018
