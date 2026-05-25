@@ -44,6 +44,17 @@ spec:
           memory: @@request.memory@@ #min limit of Memory for POD
           cpu: @@request.cpu@@
         env:
+          - name: azure_openai_api_key
+            valueFrom:
+              secretKeyRef:
+                name: @@sys-SecretResourceName@@
+                key: azure-openai-api-key
+
+          - name: db_connection_string
+            valueFrom:
+              secretKeyRef:
+                name: @@sys-SecretResourceName@@
+                key: db-connection-string
 - name: AZURE_OPENAI_API_KEY
   valueFrom:
     secretKeyRef:
