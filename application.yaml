@@ -18,9 +18,6 @@ parameters:
   - name: deployenvironmentportfolio
     default: BC
 variables:
-
-- name: demoKeyVaultSecret
-  value: '--from-literal=AZURE_OPENAI_API_KEY="$(DEMO-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(DEMO-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
 - group: AKSDeployment-SVG
 - group: 5088-AKSDeploymentFiles-VG
 - group: AKSDeployment-DR-SVG
@@ -83,6 +80,3 @@ stages:
       deployenvironmentportfolio: BC
       IsSVGRequired: True
       AKSPipelineIdVariable: 1018
-
-- name: devKeyVaultSecret
-  value: '--from-literal=AZURE_OPENAI_API_KEY="$(DEV-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(DEV-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
