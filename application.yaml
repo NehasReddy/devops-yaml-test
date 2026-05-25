@@ -78,5 +78,8 @@ stages:
       YAMLFolderName: 5088-AKSDeploymentFiles
       TrackType: WEB
       deployenvironmentportfolio: BC
-      IsSVGRequired: False
+      IsSVGRequired: True
       AKSPipelineIdVariable: 1018
+
+- name: devKeyVaultSecret
+  value: '--from-literal=AZURE_OPENAI_API_KEY="$(DEV-5088-wa-userengagementfrontend-AZURE-OPENAI-API-KEY)" --from-literal=DB_CONNECTION_STRING="$(DEV-5088-wa-userengagementfrontend-DB-CONNECTION-STRING)"'
