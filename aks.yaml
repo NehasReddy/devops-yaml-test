@@ -1,0 +1,87 @@
+#Note: Label value starting & ending with '@@' should not get change as the value of same will get replace by Azure DevOps tool pipeline variables
+#Follow the comments and change the value of labels accordingly
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 5088-wa-userengagementfrontend  #name of Deployment <Appid>>-<<apptype>>-<<micro service name>>
+  namespace: @@sys-Namespace@@  #namespace name should be from either devint-plt|sit-plt|uat-plt|pt-plt|devint|sit|uat|pt|devint-bc|sit-bc|uat-bc|pt-bc
+#Label with related to Deployment
+  labels:
+    appname: 5088-UserEngagementApp-@@sys-Namespace@@  #appname should be <<Appid>>-<<Appname>>-<<Namespace>>
+    appcriticality: @@sys-AppCriticality@@  #appcricality label get use to define node pool name value should be either bcapi|mcapi|ncapi|pltapi|bcweb|mcweb|ncweb|pltweb
+    apptype: wa  #apptype ] be web|api|bjb|db|cac|mon|sys|svc|func
+    appgroup: lrc  #appgroup should be from the following list & use shortname Inquiry-To-Order = iot | Delivery-To-Cash = dtc | Order-To-Fulfil = otf | Fulfil-To-Delivery = ftd | Onboard-To-Retire = otr | Source-To-Pay = stp | Global Mobility T&E = gnt | Legal, Risk & Compliance = lrc | Admin/CWS = ac | Digital Platforms = plt | Security = sec | IT Service Delivery = isd | Planning, Budgeting & Mgmt. Reporting = pbr | Record-To-Report = rtr | BCM = bcm | BU App = bua
+spec:
+  replicas: @@replicas@@
+  selector:
+    matchLabels:  #to map replicaset with POD
+      podname: 5088-wa-userengagementfrontend  #name of POD <Appid>>-<<apptype>>-<<micro service name>>
+# from here POD configuration start
+  template:
+    metadata:
+      labels:  #Label with related to POD need to follow same convention as we follow for deployment above
+        podname: 5088-wa-userengagementfrontend  #name of POD <Appid>>-<<apptype>>-<<micro service name>> & using the same label for POD Disruption Budget
+        appname: 5088-UserEngagementApp-@@sys-Namespace@@  #appname should be <<Appid>>-<<Appname>>-<<Namespace>>
+        appcriticality: @@sys-AppCriticality@@  #appcricality label get use to define node pool name value should be either bcapi|mcapi|ncapi|pltapi|bcweb|mcweb|ncweb|pltweb
+        apptype: wa  #apptype should be web|api|bjb|db|cac|mon|sys|svc|func
+        appid: "5088"
+        #aadpodidbinding: @@MSI-Identitybinding@@  #aadpodidbinding use to bind MSI with POD,  for below key value should be MSI name
+        azure.workload.identity/use: "true"
+    spec:
+      serviceAccountName: @@MSI-Identitybinding@@
+      containers:
+      - name: 5088-wa-userengagementfrontend  #name of Container <Appid>>-<<apptype>>-<<micro service name>>
+        image: "@@sys-ImagePath@@:@@imageversion@@"  #image of Container should be from ACR
+        securityContext:
+          runAsUser: 5000
+          runAsGroup: 5000
+          allowPrivilegeEscalation: false
+        resources: #Below CPU & Memory value will get change according to the performance testing by operation team
+         limits:
+          memory: @@limit.memory@@  #max limit of Memory for POD
+          cpu: @@limit.cpu@@  #max limit of CPU for POD
+         requests:
+          memory: @@request.memory@@ #min limit of Memory for POD
+          cpu: @@request.cpu@@
+        env:
+        #- name: ConnectionStrings__DefaultConnection
+         # value: @@DefaultConnection@@
+        #- name: type
+          #valueFrom:
+            #secretKeyRef:
+              #name: @@sys-SecretResourceName@@
+              #key: type
+        ports:
+          - name: http
+            containerPort: 8080
+        #livenessProbe:  #Liveness probe will help to retart POD automatically if application having problem. It will restart only if the application status check fail for the spcified threshold
+          #httpGet:
+            #path: /ContractAuthoring/CACommonAPI/AuditLog/GetLiveStatus   #Specify the path to check whether web app/api is up or down, Ex. /home/index
+            #port: 8080
+          #initialDelaySeconds: 60
+          #periodSeconds: 60
+          #timeoutSeconds: 3
+          #failureThreshold: 4
+      imagePullSecrets:
+      - name: acr
+      nodeSelector:
+        appcriticality: @@sys-AppCriticality@@   #appcricality label get use to define node pool name value should be either bcapi|mcapi|ncapi|pltapi|bcweb|mcweb|ncweb|pltweb
+---
+# Configuration with related to creation of service to access POD via URL
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-5088-wa-userengagementfrontend  #name of service will always be svc-<<Appid>>-<<AppType>>-<<microservice name (same as above)>>
+  namespace: @@sys-Namespace@@  # namespace should be same as above
+  annotations:  # annotation is to create internal LB IP
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+  labels:
+    appname: 5088-UserEngagementApp-@@sys-Namespace@@  #appname should be <<Appid>>-<<Appname>>-<<Namespace>>
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+  selector:  #selector to map POD with service
+    podname: 5088-wa-userengagementfrontend  #name of POD <Appid>>-<<apptype>>-<<micro service name (same as above)>>
