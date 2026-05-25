@@ -78,5 +78,5 @@ stages:
       YAMLFolderName: 5088-AKSDeploymentFiles
       TrackType: WEB
       deployenvironmentportfolio: BC
-      IsSVGRequired: False
+      IsSVGRequired: True
       AKSPipelineIdVariable: 1018
